@@ -61,7 +61,10 @@ describe('<paper-date-time-input> basic', function() {
         input.$$('paper-time-picker').set('hour', 1);
         input.$$('paper-time-picker').set('minute', 2);
         input.$$('paper-time-picker').set('second', 3);
-        done();
+
+        setTimeout(function() {
+          done();
+        }, 50)
       });
     });
 
