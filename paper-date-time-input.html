@@ -54,11 +54,11 @@ Custom property | Description | Default
   </style>
   <template>
     <div class="container">
-      <template is="dom-if" if="[[ enableDate ]]">
+      <template is="dom-if" if="[[ !disableDate ]]">
         <paper-input class="date" label="[[ labelDate ]]" value="[[ _formatDate(date) ]]" class="flex" readonly
             on-tap="_showDateDialog"></paper-input>
       </template>
-      <template is="dom-if" if="[[ enableTime ]]">
+      <template is="dom-if" if="[[ !disableTime ]]">
         <paper-input class="time" label="[[ labelTime ]]" value="{{ time }}" class="flex" readonly
             on-tap="_showTimeDialog"></paper-input>
       </template>

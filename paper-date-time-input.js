@@ -14,19 +14,19 @@ Polymer({
     labelTime: String,
 
     /**
-     * Enables date selection
+     * Disables date selection
      */
-    enableDate: {
+    disableDate: {
       type: Boolean,
-      value: true
+      value: false
     },
 
     /**
-     * Enables time selection
+     * Disables time selection
      */
-    enableTime: {
+    disableTime: {
       type: Boolean,
-      value: true
+      value: false
     },
 
     /**
