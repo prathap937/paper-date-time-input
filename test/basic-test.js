@@ -64,7 +64,7 @@ describe('<paper-date-time-input> basic', function() {
 
         setTimeout(function() {
           done();
-        }, 50)
+        }, 50);
       });
     });
 
