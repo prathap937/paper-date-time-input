@@ -34,7 +34,8 @@ Polymer({
      */
     date: {
       type: Date,
-      notify: true
+      notify: true,
+      observer: '_setDatePicker'
     },
 
     /**
@@ -46,7 +47,7 @@ Polymer({
     },
 
     /**
-     * The format to apply when displaying in the input field
+     * The format to apply when displaying in the date input field
      */
     dateFormat: {
       type: String,
@@ -58,8 +59,14 @@ Polymer({
      */
     time: {
       type: String,
-      notify: true
+      notify: true,
+      observer: '_setTimePicker'
     },
+
+    /**
+     * The format to apply when displaying in the time input field
+     */
+    timeFormat: String,
 
     /**
      * The current 24-hour value (0-24)
@@ -90,6 +97,7 @@ Polymer({
      */
     enableSeconds: {
       type: Boolean,
+      value: false,
       observer: '_enableSecondsChange'
     },
 
@@ -110,9 +118,23 @@ Polymer({
     }
   },
 
-  attached: function() {
-    if (this._isDate(this.date)) {
-      this.set('_date', this.date);
+  _setDatePicker: function(date) {
+    if (this._isString(date)) {
+      date = new Date(date);
+      if (this._isDate(date)) {
+        this.set('date', date);
+      }
+    } else if (this._isDate(date)) {
+      this.set('_date', date);
+      if (!this.time) {
+        this.set('time', this.$.datePicker.$.calendar.dateFormat(date, this._getTimeFormat()));
+      }
+    }
+  },
+
+  _setTimePicker: function(time) {
+    if (time) {
+      this.set('_time', time);
     }
   },
 
@@ -128,8 +150,7 @@ Polymer({
     if (!this._isDate(date)) { return null; }
     var calendar = this.$.datePicker.$.calendar;
     if (!this.disableTime) {
-      var timeFormat = this.enableSeconds ? 'hh:mm:ss a' : 'hh:mm a';
-      this.set('_time', calendar.dateFormat(date, timeFormat));
+      this.set('_time', calendar.dateFormat(date, this._getTimeFormat()));
       this._setTime();
     }
     return calendar.dateFormat(date, this.dateFormat);
@@ -139,14 +160,22 @@ Polymer({
    * workaround for enableSeconds not reflecting to attribute in picker
    */
   _enableSecondsChange: function(enableSeconds) {
-    this.$.timePicker.setAttribute('enable-seconds', enableSeconds);
+    if (enableSeconds) {
+      this.$.timePicker.setAttribute('enable-seconds', true);
+    } else {
+      this.$.timePicker.removeAttribute('enable-seconds');
+    }
+  },
+
+  _getTimeFormat: function() {
+    return this.timeFormat || (this.enableSeconds ? 'h:mm:ss A' : 'h:mm A');
   },
 
   _getDate: function() {
     var me = this;
     var date = me.date;
     if (me._isString(date)) {
-      date = new String(date);
+      date = new Date(date);
     }
     if (!me._isDate(date)) {
       date = new Date();
@@ -182,7 +211,7 @@ Polymer({
       me.set('second', me._second);
     }
     me.set('date', date);
-    me.set('time', me._time);
+    me.set('time', me.$.datePicker.$.calendar.dateFormat(date, me._getTimeFormat()));
   },
 
   _isDate: function(date) {
