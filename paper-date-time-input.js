@@ -38,6 +38,14 @@ Polymer({
     },
 
     /**
+     * Used internally to set date in the picker
+     */
+    _date: {
+      type: Date,
+      value: new Date()
+    },
+
+    /**
      * The format to apply when displaying in the input field
      */
     dateFormat: {
@@ -50,8 +58,7 @@ Polymer({
      */
     time: {
       type: String,
-      notify: true,
-      observer: '_timeChange'
+      notify: true
     },
 
     /**
@@ -103,6 +110,12 @@ Polymer({
     }
   },
 
+  attached: function() {
+    if (this._isDate(this.date)) {
+      this.set('_date', this.date);
+    }
+  },
+
   _showDateDialog: function() {
     this.$.dateDialog.toggle();
   },
@@ -115,7 +128,9 @@ Polymer({
     if (!this._isDate(date)) { return null; }
     var calendar = this.$.datePicker.$.calendar;
     if (!this.disableTime) {
-      this.set('time', calendar.dateFormat(date, 'hh:mm:ss a'));
+      var timeFormat = this.enableSeconds ? 'hh:mm:ss a' : 'hh:mm a';
+      this.set('_time', calendar.dateFormat(date, timeFormat));
+      this._setTime();
     }
     return calendar.dateFormat(date, this.dateFormat);
   },
@@ -127,23 +142,58 @@ Polymer({
     this.$.timePicker.setAttribute('enable-seconds', enableSeconds);
   },
 
-  _timeChange: function(time) {
-    if (!time || this.disableDate || !this._isDate(this.date)) { return; }
+  _getDate: function() {
     var me = this;
-    me.debounce('setDateFields', function() {
-      if (typeof this.hour === 'number') {
-        me.date.setHours(me.hour);
-      }
-      if (typeof me.minute === 'number') {
-        me.date.setMinutes(me.minute);
-      }
-      if (typeof me.second === 'number') {
-        me.date.setSeconds(me.second);
-      }
-    }, 50);
+    var date = me.date;
+    if (me._isString(date)) {
+      date = new String(date);
+    }
+    if (!me._isDate(date)) {
+      date = new Date();
+    }
+    return date;
+  },
+
+  _setDate: function() {
+    var me = this;
+    if (me._isDate(me._date)) {
+      var date = new Date(me._getDate());
+      date.setFullYear(me._date.getFullYear());
+      date.setMonth(me._date.getMonth());
+      date.setDate(me._date.getDate());
+      me.set('date', date);
+    }
+  },
+
+  _setTime: function() {
+    var me = this;
+    if (!me._time) { return; }
+    var date = me._getDate();
+    if (me._isNumber(me._hour)) {
+      date.setHours(me._hour);
+      me.set('hour', me._hour);
+    }
+    if (me._isNumber(me._minute)) {
+      date.setMinutes(me._minute);
+      me.set('minute', me._minute);
+    }
+    if (me._isNumber(me._second)) {
+      date.setSeconds(me._second);
+      me.set('second', me._second);
+    }
+    me.set('date', date);
+    me.set('time', me._time);
   },
 
   _isDate: function(date) {
     return date && typeof (date).getDate === 'function';
+  },
+
+  _isString: function(string) {
+    return string && typeof string === 'string';
+  },
+
+  _isNumber: function(number) {
+    return typeof number === 'number';
   }
 });

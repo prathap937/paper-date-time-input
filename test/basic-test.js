@@ -32,27 +32,28 @@ describe('<paper-date-time-input> basic', function() {
 
   });
 
-  describe('when setting date in picker', function() {
+  describe('when setting date in picker and confirming', function() {
 
-    var date;
+    var date = new Date();
 
     before(function(done) {
       input.$$('paper-input').click();
 
       setTimeout(function() {
-        date = new Date();
-        input.$$('paper-date-picker').set('date', date);
+        input.$.dateDialog.querySelector('paper-button[dialog-confirm]').click();
         done();
       });
     });
 
-    it('should set properties on paper-date-time-input', function() {
-      expect(input.date).to.equal(date);
+    it('should set date fields on paper-date-time-input', function() {
+      expect(input.date.getDate()).to.equal(date.getDate());
+      expect(input.date.getMonth()).to.equal(date.getMonth());
+      expect(input.date.getFullYear()).to.equal(date.getFullYear());
     });
 
   });
 
-  describe('when setting time in picker', function() {
+  describe('when setting time in picker and confirming', function() {
 
     before(function(done) {
       input.$$('paper-input').click();
@@ -61,10 +62,9 @@ describe('<paper-date-time-input> basic', function() {
         input.$$('paper-time-picker').set('hour', 1);
         input.$$('paper-time-picker').set('minute', 2);
         input.$$('paper-time-picker').set('second', 3);
+        input.$.timeDialog.querySelector('paper-button[dialog-confirm]').click();
 
-        setTimeout(function() {
-          done();
-        }, 50);
+        done();
       });
     });
 
@@ -76,6 +76,31 @@ describe('<paper-date-time-input> basic', function() {
     });
 
     it('should add time to date', function() {
+      expect(input.date.getHours()).to.equal(1);
+      expect(input.date.getMinutes()).to.equal(2);
+      expect(input.date.getSeconds()).to.equal(3);
+    });
+
+  });
+
+  describe('when changing date in picker again', function() {
+
+    var date = new Date(1999, 11, 31);
+
+    before(function(done) {
+      input.$$('paper-input').click();
+
+      setTimeout(function() {
+        input.$$('paper-date-picker').set('date', date);
+        input.$.dateDialog.querySelector('paper-button[dialog-confirm]').click();
+        done();
+      });
+    });
+
+    it('should only set date fields, should not override time', function() {
+      expect(input.date.getFullYear()).to.equal(1999);
+      expect(input.date.getMonth()).to.equal(11);
+      expect(input.date.getDate()).to.equal(31);
       expect(input.date.getHours()).to.equal(1);
       expect(input.date.getMinutes()).to.equal(2);
       expect(input.date.getSeconds()).to.equal(3);
