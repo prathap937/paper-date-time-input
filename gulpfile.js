@@ -11,10 +11,12 @@ var src = ['paper-date-time-input.html',
            'test/*.html'];
 
 //Lint JavaScript
-gulp.task('jshint', function () {
+gulp.task('lint', function () {
   return gulp.src(src)
-    .pipe($.jshint.extract()) // Extract JS from .html files
+    .pipe($.if('*.html', $.htmlExtract()))
     .pipe($.jshint())
+    .pipe($.jscs())
+    .pipe($.jscsStylish.combineWithHintResults())
     .pipe($.jshint.reporter('jshint-stylish'))
     .pipe($.jshint.reporter('fail'));
 });
@@ -27,7 +29,7 @@ gulp.task('bump', function(){
 
 gulp.task('default', function (callback) {
   runSequence(
-    'jshint',
+    'lint',
     callback);
 });
 
