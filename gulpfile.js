@@ -5,8 +5,8 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
 var bump = require('gulp-bump');
-var src = ['paper-time-input.html',
-           'paper-time-input.js',
+var src = ['paper-date-time-input.html',
+           'paper-date-time-input.js',
            'test/*.js',
            'test/*.html'];
 
