@@ -1,0 +1,45 @@
+{
+  "name": "paper-date-time-input",
+  "description": "An input that uses paper-date-picker and paper-time-picker",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "timepicker",
+    "datepicker",
+    "paper-time-picker",
+    "paper-date-picker",
+    "paper-input"
+  ],
+  "main": "paper-time-input.html",
+  "ignore": [
+    "/.*",
+    "/test/",
+    "/demo/",
+    "/src/",
+    "/gulpfile.js",
+    "/package.json"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "paper-date-picker": "bendavis78/paper-date-picker#~1.1.4",
+    "paper-time-picker": "bendavis78/paper-time-picker#master",
+    "paper-dialog": "PolymerElements/paper-dialog#~1.0.4",
+    "paper-input": "PolymerElements/paper-input#~1.1.11"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  },
+  "homepage": "https://github.com/gazal-k/paper-date-time-input",
+  "_release": "997005bd73",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "997005bd73b49c9a5bb409004a272a46a50b866f"
+  },
+  "_source": "git://github.com/gazal-k/paper-date-time-input.git",
+  "_target": "master",
+  "_originalSource": "gazal-k/paper-date-time-input",
+  "_direct": true
+}
