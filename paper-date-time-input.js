@@ -55,6 +55,39 @@ Polymer({
     },
 
     /**
+     *  Set to true to mark the input as required
+     */
+    required: {
+      type: Boolean,
+      value: false
+    },
+
+    /**
+     * Set to true to auto-validate the input value
+     */
+    autoValidate: {
+      type: Boolean,
+      value: false
+    },
+
+    /**
+     *  Error message to show for required validation
+     */
+    errorMessage: {
+      type: String,
+      value: 'This field is required'
+    },
+
+    /**
+     * Returns true if the value is invalid.
+     */
+    invalid: {
+      type: Boolean,
+      value: false,
+      notify: true
+    },
+
+    /**
      * The selected time
      */
     time: {
