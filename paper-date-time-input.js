@@ -39,6 +39,14 @@ Polymer({
     },
 
     /**
+     * Used to set current date
+     */
+    tzDate: {
+      type: Date,
+      value: new Date()
+    },
+
+    /**
      * Used internally to set date in the picker
      */
     _date: {
