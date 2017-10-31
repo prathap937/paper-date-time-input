@@ -12,6 +12,7 @@
     "paper-date-picker",
     "paper-input"
   ],
+  "license": "MIT",
   "main": "paper-time-input.html",
   "ignore": [
     "/.*",
