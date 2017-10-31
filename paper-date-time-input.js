@@ -229,8 +229,7 @@ Polymer({
     if (me._isDate(me._date)) {
       var date = new Date(me._getDate());
       date.setFullYear(me._date.getFullYear());
-      date.setMonth(me._date.getMonth());
-      date.setDate(me._date.getDate());
+      date.setMonth(me._date.getMonth(), me._date.getDate());//Fix late day of month issue
       me.set('date', date);
     }
   },
