@@ -13,14 +13,7 @@
   ],
   "license": "MIT",
   "main": "paper-time-input.html",
-  "ignore": [
-    "/.*",
-    "/test/",
-    "/demo/",
-    "/src/",
-    "/gulpfile.js",
-    "/package.json"
-  ],
+  "ignore": [],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0",
     "paper-time-picker": "bendavis78/paper-time-picker#master",
